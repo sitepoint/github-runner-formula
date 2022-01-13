@@ -1,0 +1,23 @@
+---
+github-runner:
+  # You can specify the GitHub Runner version, the default value is shown.
+  # This should never need to be set unless you are hosting custom builds
+  # of the GitHub runner. Don't do that.
+  version: '2.284.0'
+  # One would only need change this if hosting custom builds
+  base_url: 'https://github.com/actions/runner/releases/download'
+  # POSIX systems represent the most common denominator for installation
+  # platforms, so those defaults are used, Windows platforms will be
+  # detected when processing map.jinja, so no worries.
+  script_suffix: 'sh'
+  package_url: ''
+  package_suffix: 'tar.gz'
+  # The above settings show their defaults which will be over-ridden by
+  # the map.jinja so this need never be dealt with, unless you ignored
+  # my previous advice.
+
+  # You may want to tune the installation directory, which you can thusly
+  install_dir: "/some/dir/I/really/want/to/use"
+
+  # If you wish to be extra careful you can specify the hash of the download
+  package_hash: "b4af45bc61ea3e531b9d124e9b8c21759267724cd72543a7aa943a389f1e6ec8"
