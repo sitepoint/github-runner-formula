@@ -27,21 +27,20 @@
         }}
 
 "GitHub Runner Service":
-  service.runner:
-    - name: {{ github_runner_settings.service_name }}
-    - enable: true
-    - require:
-      - archive: "GitHub Runner Software"
-      - cmd: "GitHub Runner Service"
   cmd.run:
     - name: >-
-        {{ github_runner_settings.install_dir}}/svc.{{
+        {{ github_runner_settings.install_dir }}/svc.{{
           github_runner_settings.script_suffix
         }} install
+    - creates: {{ github_runner_settings.install_dir }}/.service
     - require:
-      - file: >-
-          {{ github_runner_settings.install_dir }}/svc.{{
-            github_runner_settings.script_suffix
-          }}
-    - watch:
       - cmd: "GitHub Runner Software"
+  service.runner:
+    - name: {{
+        salt['cmd.run'](
+          "cat '" ~ github_runner_settings.install_dir ~ "/.service'"
+        )
+      }}
+    - enable: true
+    - require:
+      - cmd: "GitHub Runner Service"
