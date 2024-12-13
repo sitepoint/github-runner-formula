@@ -11,7 +11,9 @@
 {%- set import_file = salt['pillar.get']('github-runner:defaults', '') %}
 {%- if import_file != '' %}
   {%- set custom_defaults = {} %}
-  {%- set import_type = import_file|lower|regex_match('.*\.(json|ya?ml|jinja)$') %}
+  {%-
+    set import_type = import_file|lower|regex_match('.*\.(json|ya?ml|jinja)$')
+  %}
   {%- if import_type|length > 0 %}
     {%- if import_type[0] in ['json'] %}
       {%- import_json import_file as custom_defaults %}
@@ -24,15 +26,33 @@
   {%- do salt['defaults.merge'](defaults, custom_defaults) %}
 {%- endif %}
 
-{# While we try to encourage usage of custom defaults within the state tree, we
-   want to be flexible enough to support pillar overrides for any setting #}
-{%- set github_runner_settings = salt['pillar.get']('github-runner', defaults['github-runner'], merge=True) %}
+{#-
+ # While we try to encourage usage of custom defaults within the state
+ # tree, we want to be flexible enough to support pillar overrides for
+ # any setting
+#}
+{%-
+  set github_runner_settings = salt['pillar.get'](
+    'github-runner', defaults['github-runner'],
+    merge=True,
+  )
+%}
 
 {%- if github_runner_settings.package_url|length == 0 %}
   {%- set arch = salt['grains.get']('osarch', grains['cpuarch'])|lower %}
   {%- set kernel = salt['grains.get']('kernel')|lower %}
   {%- set version = github_runner_settings.version %}
-  {%- set package_suffix = github_runner_settings.package_suffix %}
-  {%- set package_url = '{{ github_runner_settings.base_url }}/v{{ version }}/actions-runner-{{ kernel }}{{ arch }}-{{ version }}.{{ package_suffix }}' %}
+
+  {%-
+    set download_loc = '{{ github_runner_settings.base_url }}/v{{ version }}'
+  %}
+  {%-
+    set package_name = 'actions-runner-{{ kernel }}{{ arch }}-{{ version }}.{{
+      package_suffix
+    }}'
+  %}
+  {%-
+    set package_url = '{{ download_loc }}/{{ package_name }}'
+  %}
   {%- do github_runner_settings.update({'package_url': package_url }) %}
 {%- endif %}
