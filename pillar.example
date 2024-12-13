@@ -3,7 +3,7 @@ github-runner:
   # You can specify the GitHub Runner version, the default value is shown.
   # This should never need to be set unless you are hosting custom builds
   # of the GitHub runner. Don't do that.
-  version: '2.284.0'
+  version: '2.321.0'
   # One would only need change this if hosting custom builds
   base_url: 'https://github.com/actions/runner/releases/download'
   # POSIX systems represent the most common denominator for installation
@@ -19,5 +19,4 @@ github-runner:
   # You may want to tune the installation directory, which you can thusly
   install_dir: "/some/dir/I/really/want/to/use"
 
-  # If you wish to be extra careful you can specify the hash of the download
-  package_hash: "b4af45bc61ea3e531b9d124e9b8c21759267724cd72543a7aa943a389f1e6ec8"
+  package_hash: "ba46ba7ce3a4d7236b16fbe44419fb453bc08f866b24f04d549ec89f1722a29e"

@@ -1,5 +1,5 @@
 github-runner:
-  version: '2.284.0'
+  version: '2.321.0'
   base_url: 'https://github.com/actions/runner/releases/download'
   script_suffix: 'sh'
   package_url: ''
