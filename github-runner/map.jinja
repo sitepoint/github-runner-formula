@@ -2,12 +2,12 @@
 # vim: ft=jinja
 {%- import_yaml 'github-runner/defaults.yaml as defaults %}
 
-{# merge os specific defaults over our defaults #}
-{% import_yaml 'github-runner/osmap.yaml' as osmap %}
-{% set osmap = salt['grains.filter_by'](osmap, grain='kernel') or {} %}
-{% do salt['defaults.merge'](defaults['github-runner'], osmap) %}
+{#- Merge os specific defaults over our defaults #}
+{%- import_yaml 'github-runner/osmap.yaml' as osmap %}
+{%- set osmap = salt['grains.filter_by'](osmap, grain='kernel') or {} %}
+{%- do salt['defaults.merge'](defaults['github-runner'], osmap) %}
 
-{# Allow custom imports to reduce pillar load on the master #}
+{#- Allow custom imports to reduce pillar load on the master #}
 {%- set import_file = salt['pillar.get']('github-runner:defaults', '') %}
 {%- if import_file != '' %}
   {%- set custom_defaults = {} %}

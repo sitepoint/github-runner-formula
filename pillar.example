@@ -1,10 +1,10 @@
 ---
 github-runner:
-  # Note that default values are commented out.
+  ## The following settings are optional. Defaults are commented out.
 
   # You can specify the GitHub Runner version. Note that the runner
-  # will automatically update itself as needed, so setting this is not
-  # required.
+  # will automatically update itself as needed, so setting this is
+  # generally not required.
   #version: '2.321.0'
 
   # The SHA256 hash of the downloaded runner package, which is OS-specific.
@@ -23,7 +23,9 @@ github-runner:
   # based on kernel, architecture and version.
   #package_url: ''
 
-  # You can override the OS-specific installation path default.
+  # You can override the installation path default (which is
+  # OS-specific).
+  #
   # MacOS / Linux:
   #install_dir: '/opt/github/actions-runner'
   # Windows:
