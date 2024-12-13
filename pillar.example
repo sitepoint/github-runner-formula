@@ -7,8 +7,14 @@ github-runner:
   # required.
   #version: '2.321.0'
 
-  # The SHA256 hash of the downloaded runner package.
-  #package_hash: "ba46ba7ce3a4d7236b16fbe44419fb453bc08f866b24f04d549ec89f1722a29e"
+  # The SHA256 hash of the downloaded runner package, which is OS-specific.
+  #
+  # MacOS:
+  #package_hash: 'b2c91416b3e4d579ae69fc2c381fc50dbda13f1b3fcc283187e2c75d1b173072'
+  # Linux:
+  #package_hash: 'ba46ba7ce3a4d7236b16fbe44419fb453bc08f866b24f04d549ec89f1722a29e'
+  # Windows:
+  #package_hash: '88d754da46f4053aec9007d172020c1b75ab2e2049c08aef759b643316580bbc'
 
   # One would only need change this if hosting custom builds.
   #base_url: 'https://github.com/actions/runner/releases/download'
