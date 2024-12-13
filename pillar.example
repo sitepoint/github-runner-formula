@@ -1,22 +1,24 @@
 ---
 github-runner:
-  # You can specify the GitHub Runner version, the default value is shown.
-  # This should never need to be set unless you are hosting custom builds
-  # of the GitHub runner. Don't do that.
-  version: '2.321.0'
-  # One would only need change this if hosting custom builds
-  base_url: 'https://github.com/actions/runner/releases/download'
-  # POSIX systems represent the most common denominator for installation
-  # platforms, so those defaults are used, Windows platforms will be
-  # detected when processing map.jinja, so no worries.
-  script_suffix: 'sh'
-  package_url: ''
-  package_suffix: 'tar.gz'
-  # The above settings show their defaults which will be over-ridden by
-  # the map.jinja so this need never be dealt with, unless you ignored
-  # my previous advice.
+  # Note that default values are commented out.
 
-  # You may want to tune the installation directory, which you can thusly
-  install_dir: "/some/dir/I/really/want/to/use"
+  # You can specify the GitHub Runner version. Note that the runner
+  # will automatically update itself as needed, so setting this is not
+  # required.
+  #version: '2.321.0'
 
-  package_hash: "ba46ba7ce3a4d7236b16fbe44419fb453bc08f866b24f04d549ec89f1722a29e"
+  # The SHA256 hash of the downloaded runner package.
+  #package_hash: "ba46ba7ce3a4d7236b16fbe44419fb453bc08f866b24f04d549ec89f1722a29e"
+
+  # One would only need change this if hosting custom builds.
+  #base_url: 'https://github.com/actions/runner/releases/download'
+
+  # If unset, the package download URL is automatically determined
+  # based on kernel, architecture and version.
+  #package_url: ''
+
+  # You can override the OS-specific installation path default.
+  # MacOS / Linux:
+  #install_dir: '/opt/github/actions-runner'
+  # Windows:
+  #install_dir: 'C:/github/actions-runner'

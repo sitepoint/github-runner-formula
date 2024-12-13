@@ -1,5 +1,6 @@
 github-runner:
   version: '2.321.0'
+  package_hash: "ba46ba7ce3a4d7236b16fbe44419fb453bc08f866b24f04d549ec89f1722a29e"
   base_url: 'https://github.com/actions/runner/releases/download'
   script_suffix: 'sh'
   package_url: ''
