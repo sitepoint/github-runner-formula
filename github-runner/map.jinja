@@ -49,6 +49,14 @@
   {%- endif %}
 
   {%- set kernel = salt['grains.get']('kernel')|lower %}
+  {%- set package_suffix = "tar.gz" %}
+  {%- if kernel == "MacOS" %}
+  {%- set kernel = "osx" %}
+  {%- elif kernel == "Windows" %}
+  {%- set kernel = "win" %}
+  {%- set package_suffix = "zip" %}
+  {%- endif %}
+
   {%- set version = github_runner_settings.version %}
 
   {%-

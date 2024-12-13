@@ -3,4 +3,3 @@ github-runner:
   base_url: 'https://github.com/actions/runner/releases/download'
   script_suffix: 'sh'
   package_url: ''
-  package_suffix: 'tar.gz'
