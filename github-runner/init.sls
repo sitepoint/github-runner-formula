@@ -7,7 +7,9 @@
   archive.extracted:
     - name: {{ github_runner_settings.install_dir }}
     - source: {{ github_runner_settings.package_url }}
+{%- if github_runner_settings.package_hash %}
     - source_hash: sha256={{ github_runner_settings.package_hash }}
+{%- endif %}
     - require:
       - file: "GitHub Runner Software"
   cmd.run:
