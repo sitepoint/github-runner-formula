@@ -40,6 +40,14 @@
 
 {%- if github_runner_settings.package_url|length == 0 %}
   {%- set arch = salt['grains.get']('osarch', grains['cpuarch'])|lower %}
+  {%- if arch in ("amd64", "x86_64") %}
+  {%- set arch = "x64" %}
+  {%- elif arch == "aarch64" %}
+  {%- set arch = "arm64" %}
+  {%- elif arch in ("armhf", "armv7l")  %}
+  {%- set arch = "arm" %}
+  {%- endif %}
+
   {%- set kernel = salt['grains.get']('kernel')|lower %}
   {%- set version = github_runner_settings.version %}
 
