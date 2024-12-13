@@ -1,5 +1,8 @@
 ---
 github-runner:
+  # Add your token from GitHub here.
+  repo_token: ''
+
   ## The following settings are optional. Defaults are commented out.
 
   # You can specify the GitHub Runner version. Note that the runner
