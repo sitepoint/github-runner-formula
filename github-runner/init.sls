@@ -11,10 +11,18 @@
     - require:
       - file: "GitHub Runner Software"
   cmd.run:
-    - name: {{ github_runner_settings.install_dir }}/config.{{ github_runner_settings.script_suffix }} --unattended --url {{ github_runner_settings.repo_url }} --token ${{ github_runner_settings.repo_token }}
+    - name: >-
+        {{ github_runner_settings.install_dir }}/config.{{
+          github_runner_settings.script_suffix
+        }}
+        --unattended --url {{ github_runner_settings.repo_url }}
+        --token ${{ github_runner_settings.repo_token }}
     - require:
       - archive: "GitHub Runner Software"
-    - creates: {{ github_runner_settings.install_dir }}/svc.{{ github_runner_settings.script_suffix }}
+    - creates: >-
+        {{ github_runner_settings.install_dir }}/svc.{{
+          github_runner_settings.script_suffix
+        }}
 
 "GitHub Runner Service":
   service.runner:
@@ -24,8 +32,14 @@
       - archive: "GitHub Runner Software"
       - cmd: "GitHub Runner Service"
   cmd.run:
-    - name: {{ github_runner_settings.install_dir}}/svc.{{ github_runner_settings.script_suffix }} install
+    - name: >-
+        {{ github_runner_settings.install_dir}}/svc.{{
+          github_runner_settings.script_suffix
+        }} install
     - require:
-      - file: {{ github_runner_settings.install_dir }}/svc.{{ github_runner_settings.script_suffix }}
+      - file: >-
+          {{ github_runner_settings.install_dir }}/svc.{{
+            github_runner_settings.script_suffix
+          }}
     - watch:
       - cmd: "GitHub Runner Software"
