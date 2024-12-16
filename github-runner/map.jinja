@@ -4,8 +4,7 @@
 {%- import_yaml "github-runner/defaults.yaml" as defaults %}
 
 {#- Merge os specific defaults over our defaults #}
-{%- import_yaml 'github-runner/osmap.yaml' as osmap %}
-{%- set osmap = salt['grains.filter_by'](osmap, grain='kernel') or {} %}
+{%- from "github-runner/osmap.jinja" import osmap with context %}
 {%- do salt['defaults.merge'](defaults['github-runner'], osmap) %}
 
 {#- Allow custom imports to reduce pillar load on the master #}
@@ -40,7 +39,8 @@
 %}
 
 {%- if github_runner_settings.package_url|length == 0 %}
-  {%- set arch = salt['grains.get']('osarch', grains['cpuarch'])|lower %}
+  {%- set cpuarch_grain = salt['grains.get']('osarch', grains['cpuarch']) %}
+  {%- set arch = cpuarch_grain|lower %}
   {%- if arch in ("amd64", "x86_64") %}
   {%- set arch = "x64" %}
   {%- elif arch == "aarch64" %}
@@ -49,7 +49,8 @@
   {%- set arch = "arm" %}
   {%- endif %}
 
-  {%- set kernel = salt['grains.get']('kernel')|lower %}
+  {%- set kernel_grain = salt['grains.get']('kernel') %}
+  {%- set kernel = kernel_grain|lower %}
   {%- set package_suffix = "tar.gz" %}
   {%- if kernel == "MacOS" %}
   {%- set kernel = "osx" %}
@@ -57,17 +58,14 @@
   {%- set kernel = "win" %}
   {%- set package_suffix = "zip" %}
   {%- endif %}
-
-  {%- set version = github_runner_settings.version %}
+  {%- do github_runner_settings.update({'kernel': kernel }) %}
 
   {%-
-    set download_loc = '{{ github_runner_settings.base_url }}/v{{ version }}'
+    set package_hash = github_runner_settings.get('package_hashes', {}).get(
+      arch
+    )
   %}
-  {%-
-    set package_name = 'actions-runner-{{ kernel }}{{ arch }}-{{ version }}.{{
-      package_suffix
-    }}'
-  %}
+  {%- do github_runner_settings.update({'package_hash': package_hash }) %}
 
   {%- if "labels" not in github_runner_settings %}
   {%- do github_runner_settings.update({'labels': []}) %}

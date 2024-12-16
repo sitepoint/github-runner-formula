@@ -1,18 +1,35 @@
 # -*- coding: utf-8 -*-
-# vim: ft=yaml
----
+# vim: ft=jinja
 
-MacOS:
-  install_dir: /opt/github/actions-runner
-  package_hash: b2c91416b3e4d579ae69fc2c381fc50dbda13f1b3fcc283187e2c75d1b173072
-  script_suffix: sh
-
-Linux:
-  install_dir: /opt/github/actions-runner
-  package_hash: ba46ba7ce3a4d7236b16fbe44419fb453bc08f866b24f04d549ec89f1722a29e
-  script_suffix: sh
-
-Windows:
-  install_dir: 'C:/github/actions-runner'
-  package_hash: 88d754da46f4053aec9007d172020c1b75ab2e2049c08aef759b643316580bbc
-  script_suffix: cmd
+{%-
+  set osmap = salt['grains.filter_by'](
+    {
+      'MacOS': {
+        'install_dir': '/opt/github/actions-runner',
+        'package_hashes': {
+          'arm64': 'fbee07e42a134645d4f04f8146b0a3d0b3c948f0d6b2b9fa61f4318c1192ff79',
+          'x68': 'b2c91416b3e4d579ae69fc2c381fc50dbda13f1b3fcc283187e2c75d1b173072',
+         },
+        'script_suffix': 'sh',
+      },
+      'Linux': {
+        'install_dir': '/opt/github/actions-runner',
+        'package_hashes': {
+          'x64': 'ba46ba7ce3a4d7236b16fbe44419fb453bc08f866b24f04d549ec89f1722a29e',
+          'arm': '2b96a4991ebf2b2076908a527a1a13db590217f9375267b5dd95f0300dde432b',
+          'arm64': '62cc5735d63057d8d07441507c3d6974e90c1854bdb33e9c8b26c0da086336e1',
+        },
+        'script_suffix': 'sh',
+      },
+      'Windows': {
+        'install_dir': 'C:/github/actions-runner',
+        'package_hashes': {
+          'x64': '88d754da46f4053aec9007d172020c1b75ab2e2049c08aef759b643316580bbc',
+          'arm64': '22df5a32a65a55e43dab38a200d4f72be0f9f5ce1839f5ad34e689a0d3ff0fb7',
+        },
+        'script_suffix': 'cmd',
+      },
+    },
+    grain='kernel',
+  ) or {}
+%}
