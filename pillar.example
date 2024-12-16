@@ -1,7 +1,12 @@
 ---
 github-runner:
-  # Add your token from GitHub here.
+  ## Required
+
+  # Add your token from GitHub.
   repo_token: ''
+
+  # Add your GitHub account/org URL. eg. 'https://github.com/sitepoint'
+  repo_url: ''
 
   ## The following settings are optional. Defaults are commented out.
 
