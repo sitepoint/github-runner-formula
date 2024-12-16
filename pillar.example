@@ -13,6 +13,10 @@ github-runner:
   #  - arm64
   #  - Linux
 
+  # If you wish to use an existing runner group (other than
+  # "default"), it can be set here.
+  #runnergroup: rt-runnergroup
+
   # You can specify the GitHub Runner version. Note that the runner
   # will automatically update itself as needed, so setting this is
   # generally not required.

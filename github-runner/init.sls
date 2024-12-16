@@ -42,6 +42,9 @@ Create ghrunner user:
         --unattended --url {{ github_runner_settings.repo_url }}
         --token {{ github_runner_settings.repo_token }}
         --lables {{ ','.join(github_runner_settings.labels) }}
+{%- if "runnergroup" in github_runner_settings %}
+        --runnergroup {{ github_runner_settings.runnergroup }}
+{%- endif %}
     - runas: ghrunner
     - cwd: {{ github_runner_settings.install_dir }}
     - require:
