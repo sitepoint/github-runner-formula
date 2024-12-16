@@ -61,15 +61,29 @@ Create ghrunner user:
         {{ github_runner_settings.install_dir }}/svc.{{
           github_runner_settings.script_suffix
         }} install ghrunner
+    - cwd: {{ github_runner_settings.install_dir }}
     - creates: {{ github_runner_settings.install_dir }}/.service
     - require:
       - cmd: "GitHub Runner Software"
-  service.runner:
+
+"Enable GitHub Runner Service":
+{%- if salt["file.file_exists"](github_runner_settings.install_dir ~ '/.service') %}
+  service.running:
     - name: {{
         salt['cmd.run'](
           "cat '" ~ github_runner_settings.install_dir ~ "/.service'"
         )
       }}
-    - enable: true
+    - enable: True
     - require:
       - cmd: "GitHub Runner Service"
+{%- else %}
+  cmd.run:
+    - name: >-
+        SERVICE=$(cat {{ github_runner_settings.install_dir }}/.service);
+        systemctl enable $SERVICE;
+        systemctl start $SERVICE
+    - require:
+      - cmd: "GitHub Runner Service"
+    - onlyif: test -f {{ github_runner_settings.install_dir }}/.service
+{%- endif %}
