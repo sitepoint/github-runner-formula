@@ -67,6 +67,12 @@
       package_suffix
     }}'
   %}
+
+  {%- if "labels" not in github_runner_settings %}
+  {%- do github_runner_settings.update({'labels': []}) %}
+  {%- endif %}
+  {%- do github_runner_settings.labels.append(cpuarch_grain) %}
+  {%- do github_runner_settings.labels.append(kernel_grain) %}
   {%-
     set package_url = '{{ download_loc }}/{{ package_name }}'
   %}

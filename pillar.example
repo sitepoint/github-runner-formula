@@ -5,6 +5,14 @@ github-runner:
 
   ## The following settings are optional. Defaults are commented out.
 
+  # Add any additional labels to the runner that you like. The values
+  # of the `cpuarch` and and `kernel` grains will always be added
+  # automatically.
+  # https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/using-labels-with-self-hosted-runners#programmatically-assign-labels
+  #labels:
+  #  - arm64
+  #  - Linux
+
   # You can specify the GitHub Runner version. Note that the runner
   # will automatically update itself as needed, so setting this is
   # generally not required.
