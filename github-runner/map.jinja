@@ -72,8 +72,14 @@
   {%- endif %}
   {%- do github_runner_settings.labels.append(cpuarch_grain) %}
   {%- do github_runner_settings.labels.append(kernel_grain) %}
+
+  {%- set version = github_runner_settings.version %}
+
+  {%- set download_loc = github_runner_settings.base_url ~ '/v' ~ version %}
   {%-
-    set package_url = '{{ download_loc }}/{{ package_name }}'
+    set package_name = 'actions-runner-' ~ kernel ~ '-' ~ arch ~ '-' ~
+      version ~ '.' ~ package_suffix
   %}
+  {%- set package_url = download_loc ~ '/' ~ package_name %}
   {%- do github_runner_settings.update({'package_url': package_url }) %}
 {%- endif %}
