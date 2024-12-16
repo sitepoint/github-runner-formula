@@ -1,15 +1,37 @@
 {%- from "github-runner/map.jinja" import github_runner_settings with context %}
 
+Create ghrunner user:
+  user.present:
+    - name: ghrunner
+    - fullname: GitHub Runner
+    - home: {{ github_runner_settings.install_dir }}
+    - createhome: False
+    - system: True
+{%- if github_runner_settings.kernel == "Linux" %}
+    - usergroup: True
+{%- endif %}
+
 "GitHub Runner Software":
   file.directory:
     - name: {{ github_runner_settings.install_dir }}
-    - makedirs: true
+    - user: ghrunner
+    - group: ghrunner
+    - mode: '0750'
+    - makedirs: True
+    - recurse:
+      - user
+      - group
+      - mode
+    - require:
+      - user: Create ghrunner user
   archive.extracted:
     - name: {{ github_runner_settings.install_dir }}
     - source: {{ github_runner_settings.package_url }}
 {%- if github_runner_settings.package_hash %}
     - source_hash: sha256={{ github_runner_settings.package_hash }}
 {%- endif %}
+    - user: ghrunner
+    - group: ghrunner
     - require:
       - file: "GitHub Runner Software"
   cmd.run:
@@ -19,6 +41,8 @@
         }}
         --unattended --url {{ github_runner_settings.repo_url }}
         --token ${{ github_runner_settings.repo_token }}
+    - runas: ghrunner
+    - cwd: {{ github_runner_settings.install_dir }}
     - require:
       - archive: "GitHub Runner Software"
     - creates: >-
