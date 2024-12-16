@@ -60,7 +60,7 @@ Create ghrunner user:
     - name: >-
         {{ github_runner_settings.install_dir }}/svc.{{
           github_runner_settings.script_suffix
-        }} install
+        }} install ghrunner
     - creates: {{ github_runner_settings.install_dir }}/.service
     - require:
       - cmd: "GitHub Runner Software"
