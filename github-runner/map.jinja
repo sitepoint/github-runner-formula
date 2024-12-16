@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # vim: ft=jinja
-{%- import_yaml 'github-runner/defaults.yaml as defaults %}
+
+{%- import_yaml "github-runner/defaults.yaml" as defaults %}
 
 {#- Merge os specific defaults over our defaults #}
 {%- import_yaml 'github-runner/osmap.yaml' as osmap %}
