@@ -32,6 +32,7 @@ Create ghrunner user:
 {%- endif %}
     - user: ghrunner
     - group: ghrunner
+    - unless: test -f /opt/github/actions-runner/run.sh
     - require:
       - file: "GitHub Runner Software"
   cmd.run:
