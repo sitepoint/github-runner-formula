@@ -40,7 +40,7 @@ Create ghrunner user:
           github_runner_settings.script_suffix
         }}
         --unattended --url {{ github_runner_settings.repo_url }}
-        --token ${{ github_runner_settings.repo_token }}
+        --token {{ github_runner_settings.repo_token }}
     - runas: ghrunner
     - cwd: {{ github_runner_settings.install_dir }}
     - require:
