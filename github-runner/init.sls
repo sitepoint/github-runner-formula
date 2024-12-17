@@ -18,10 +18,6 @@ Create ghrunner user:
     - group: ghrunner
     - mode: '0750'
     - makedirs: True
-    - recurse:
-      - user
-      - group
-      - mode
     - require:
       - user: Create ghrunner user
   archive.extracted:
@@ -55,6 +51,17 @@ Create ghrunner user:
           github_runner_settings.script_suffix
         }}
 
+# We use cmd instead of file built-in state because that only supports
+# octal encoding (issue #32681).
+# https://github.com/saltstack/salt/issues/32681
+"Secure {{ github_runner_settings.install_dir }}":
+  cmd.run:
+    - name: >-
+        chown -R ghrunner:ghrunner {{ github_runner_settings.install_dir }} &&
+        chmod -R u=rwX,g=rX,o-rwx {{ github_runner_settings.install_dir }}
+    - onchanges:
+      - cmd: "GitHub Runner Software"
+
 "GitHub Runner Service":
   cmd.run:
     - name: >-
@@ -65,6 +72,7 @@ Create ghrunner user:
     - creates: {{ github_runner_settings.install_dir }}/.service
     - require:
       - cmd: "GitHub Runner Software"
+      - cmd: "Secure {{ github_runner_settings.install_dir }}"
 
 "Enable GitHub Runner Service":
 {%- if salt["file.file_exists"](github_runner_settings.install_dir ~ '/.service') %}
