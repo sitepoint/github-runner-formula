@@ -46,10 +46,12 @@ Create ghrunner user:
     - cwd: {{ github_runner_settings.install_dir }}
     - require:
       - archive: "GitHub Runner Software"
-    - creates: >-
-        {{ github_runner_settings.install_dir }}/svc.{{
-          github_runner_settings.script_suffix
-        }}
+    - creates:
+        - {{ github_runner_settings.install_dir }}/.credentials
+        - {{ github_runner_settings.install_dir }}/.runner
+        - {{ github_runner_settings.install_dir }}/svc.{{
+            github_runner_settings.script_suffix
+          }}
 
 # We use cmd instead of file built-in state because that only supports
 # octal encoding (issue #32681).
@@ -93,5 +95,4 @@ Create ghrunner user:
         systemctl start $SERVICE
     - require:
       - cmd: "GitHub Runner Service"
-    - onlyif: test -f {{ github_runner_settings.install_dir }}/.service
 {%- endif %}
